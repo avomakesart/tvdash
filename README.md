@@ -4,6 +4,12 @@ A small TV dashboard built with Vue 3 + TypeScript, powered by the [TVMaze API](
 
 ---
 
+## Live demo
+
+[tvdash-azure.vercel.app](https://tvdash-azure.vercel.app)
+
+---
+
 ## What it does
 
 - Browse TV shows grouped by genre in horizontal, scrollable rows
