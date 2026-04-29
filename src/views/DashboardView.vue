@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useFavorites } from '@/composables/useFavorites'
 import { useGenres } from '@/composables/useGenres'
 import { useSearch } from '@/composables/useSearch'
