@@ -74,7 +74,7 @@ function stripHtml(html: string | null) {
           :class="{ 'favorite-btn--active': isFav }"
           :aria-label="isFav ? `Remove ${show.name} from favorites` : `Add ${show.name} to favorites`"
           :aria-pressed="isFav"
-          @click="toggle(id)"
+          @click="show && toggle(show)"
         >
           <HeartIcon :filled="isFav" />
         </button>

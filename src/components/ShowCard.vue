@@ -55,7 +55,7 @@ function handleKeydown(e: KeyboardEvent) {
         :class="{ 'favorite-btn--active': isFav }"
         :aria-label="isFav ? `Remove ${show.name} from favorites` : `Add ${show.name} to favorites`"
         :aria-pressed="isFav"
-        @click.stop="toggle(show.id)"
+        @click.stop="toggle(show)"
       >
         <HeartIcon :filled="isFav" />
       </button>

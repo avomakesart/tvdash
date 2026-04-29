@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useFavorites } from '@/composables/useFavorites'
 import { useGenres } from '@/composables/useGenres'
@@ -19,7 +19,7 @@ const router = useRouter()
 
 const { shows, loading, error, loadShows } = useShows()
 const { genreGroups } = useGenres(shows)
-const { favoriteIds } = useFavorites()
+const { favorites } = useFavorites()
 
 const query = ref(String(route.query.search ?? ''))
 
@@ -28,10 +28,6 @@ watch(query, (q) => {
 }, { flush: 'post' })
 
 const { results: searchResults, loading: searchLoading, error: searchError } = useSearch(query)
-
-const favoriteShows = computed(() =>
-  shows.value.filter((s) => favoriteIds.value.includes(s.id)),
-)
 
 onMounted(loadShows)
 </script>
@@ -108,11 +104,11 @@ onMounted(loadShows)
         </template>
 
         <template v-else>
-          <section v-if="favoriteShows.length" class="favorites-section">
+          <section v-if="favorites.length" class="favorites-section">
             <h2 class="favorites-title">
               <HeartIcon filled /> My Favorites
             </h2>
-            <HorizontalList :shows="favoriteShows" />
+            <HorizontalList :shows="favorites" />
           </section>
 
           <GenreSection v-for="group in genreGroups" :key="group.genre" :group="group" />

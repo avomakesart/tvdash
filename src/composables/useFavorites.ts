@@ -1,41 +1,48 @@
 import { ref, computed } from 'vue'
+import type { Show } from '@/types'
 
 const STORAGE_KEY = 'tvdash-favorites'
 
-function readStorage(): number[] {
+function readStorage(): Show[] {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')
+    // Guard against old format that stored plain number IDs
+    if (!Array.isArray(raw) || raw.some((item) => typeof item !== 'object' || item === null)) {
+      return []
+    }
+    return raw as Show[]
   } catch {
     return []
   }
 }
 
-function writeStorage(ids: number[]): void {
+function writeStorage(shows: Show[]): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(shows))
   } catch {
     // quota exceeded or private mode — fail silently
   }
 }
 
-const favoriteIds = ref<number[]>(readStorage())
+const favorites = ref<Show[]>(readStorage())
 
 export function useFavorites() {
-  function toggle(id: number) {
-    if (favoriteIds.value.includes(id)) {
-      favoriteIds.value = favoriteIds.value.filter((f) => f !== id)
+  function toggle(show: Show) {
+    if (favorites.value.some((f) => f.id === show.id)) {
+      favorites.value = favorites.value.filter((f) => f.id !== show.id)
     } else {
-      favoriteIds.value = [...favoriteIds.value, id]
+      favorites.value = [...favorites.value, show]
     }
-    writeStorage(favoriteIds.value)
+    writeStorage(favorites.value)
   }
 
   function isFavorite(id: number): boolean {
-    return favoriteIds.value.includes(id)
+    return favorites.value.some((f) => f.id === id)
   }
 
   return {
-    favoriteIds: computed<readonly number[]>(() => favoriteIds.value),
+    favorites: computed<readonly Show[]>(() => favorites.value),
+    favoriteIds: computed<readonly number[]>(() => favorites.value.map((f) => f.id)),
     toggle,
     isFavorite,
   }
