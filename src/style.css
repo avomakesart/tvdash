@@ -91,6 +91,10 @@ button {
   cursor: pointer;
 }
 
+input, button, textarea, select {
+  font: inherit;
+}
+
 a {
   color: var(--color-accent);
 }
