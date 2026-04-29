@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TriangleAlertIcon from './icons/TriangleAlertIcon.vue';
+
 defineProps<{
   message?: string
   detail?: string
@@ -9,7 +11,7 @@ defineEmits<{ retry: [] }>()
 
 <template>
   <div class="error-state" role="alert">
-    <span class="icon" aria-hidden="true">⚠</span>
+    <span class="icon" aria-hidden="true"><TriangleAlertIcon /></span>
     <p class="message">{{ message ?? 'Something went wrong' }}</p>
     <p v-if="detail" class="detail">{{ detail }}</p>
     <button class="retry-btn" @click="$emit('retry')">Try again</button>
